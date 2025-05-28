@@ -11,7 +11,7 @@ export ELISA_USER=${ELISA_USER:-logbook}
 TMPFILE=/tmp/elisa.tmp.$$
 
 mkdir ${ELISA_HOME}/config
-cat /application-mysql-local.properties.template | envsubst > ${ELISA_HOME}/config/application-mysql-local.properties
+cat /etc/elisa/application-mysql-local.properties.template | envsubst > ${ELISA_HOME}/config/application-mysql-local.properties
 if [ -n "$ELISA_DEFINEDORDER" ] ; then
     echo $ELISA_DEFINEDORDER | sed -e 's/\s*//g' -e 's/\s*,/,\\\\\\\n/g' > $TMPFILE
     sed -i -E "s/@DEFINEDORDER@/elisa.config.definedOrder.SA = \\\\\n`cat $TMPFILE`/g" ${ELISA_HOME}/config/application-mysql-local.properties
