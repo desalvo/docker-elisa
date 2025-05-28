@@ -21,3 +21,4 @@ cat $CMDPATH/elisa.yaml.template | envsubst > elisa.yaml
 cat $CMDPATH/elisa_user_privileges.sql.template | envsubst > elisa_user_privileges.sql
 ln -fs $CMDPATH/elisa.cnf .
 ln -fs $CMDPATH/elisa_emptydb.sql .
+[ ! -s application-mysql-local.properties.template ] && cp $CMDPATH/application-mysql-local.properties.template .
