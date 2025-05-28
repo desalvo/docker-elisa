@@ -1,0 +1,22 @@
+# local mysql environment settings
+# ===============================
+# DB connection strings
+# config and messages are in one db, but for compatibility with the Oracle implementation, both parameter sets need to be filled in
+# ===============================
+spring.datasource.jdbc-url = jdbc:mysql://${MARIADB_HOST}:${MARIADB_PORT}/${MARIADB_database}?sessionVariables=sql_mode=""
+spring.datasource.username = ${MARIADB_USER}
+spring.datasource.password = ${MARIADB_PASSWORD}
+
+spring.configdatasource.jdbc-url = jdbc:mysql://${MARIADB_HOST}:${MARIADB_PORT}/${MARIADB_database}?sessionVariables=sql_mode=""
+spring.configdatasource.username = ${MARIADB_USER}
+spring.configdatasource.password = ${MARIADB_PASSWORD}
+elisa.mail.delivery = off
+
+### use this property if you have COLUMN D_MESSAGES.CHANGEDBY in your datatabse
+elisa.config.status_list = {'open','closed','acknowledged','known_problem','WIP'}
+
+logging.level.atlas.tdaq.elisa=TRACE
+
+elisa.use.relatedLogs=false
+
+@DEFINEDORDER@

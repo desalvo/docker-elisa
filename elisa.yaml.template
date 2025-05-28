@@ -1,0 +1,41 @@
+services:
+  elisa:
+    image: desalvo/elisa:latest
+    container_name: elisa
+    environment:
+      MARIADB_HOST: ${MARIADB_HOST}
+      MARIADB_PORT: ${MARIADB_PORT}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      ELISA_DEFINEDORDER: "MDT,General"
+    ports:
+    - "8090:8090"
+    depends_on:
+      ${MARIADB_HOST}:
+        condition: service_healthy
+        restart: true
+    hostname: elisa
+
+  db:
+    image: mariadb:latest
+    container_name: ${MARIADB_HOST}
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER} 
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+    - "${MARIADB_HOST_PORT}:${MARIADB_PORT}"
+    hostname: ${MARIADB_HOST}
+    volumes:
+    - mariadb:/var/lib/mysql
+    - ./elisa.cnf:/etc/mysql/mariadb.conf.d/elisa.cnf
+    - ./elisa_emptydb.sql:/docker-entrypoint-initdb.d/elisa_emptydb.sql
+    - ./elisa_user_privileges.sql:/docker-entrypoint-initdb.d/elisa_user_privileges.sql
+volumes:
+  mariadb:

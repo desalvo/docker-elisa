@@ -1,0 +1,5 @@
+[tdaq-elisa]
+name=TDAQ ELisA logbook
+baseurl=https://atlas-tdaq-sw.web.cern.ch/atlas-tdaq-sw/yum/tdaq/elisa/el9
+enabled=1
+gpgcheck=0
