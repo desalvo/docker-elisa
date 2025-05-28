@@ -15,7 +15,7 @@ services:
         restart: true
     hostname: elisa
 
-  db:
+  ${MARIADB_HOST}:
     image: mariadb:latest
     container_name: ${MARIADB_HOST}
     environment:

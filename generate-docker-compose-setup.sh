@@ -19,5 +19,5 @@ if [ -z "`type envsubst 2>/dev/null`" ] ; then
 fi
 cat $CMDPATH/elisa.yaml.template | envsubst > elisa.yaml
 cat $CMDPATH/elisa_user_privileges.sql.template | envsubst > elisa_user_privileges.sql
-ln -s $CMDPATH/elisa.cnf .
-ln -s $CMDPATH/elisa_emptydb.sql .
+ln -fs $CMDPATH/elisa.cnf .
+ln -fs $CMDPATH/elisa_emptydb.sql .
