@@ -58,6 +58,7 @@ CREATE TABLE `D_MESSAGES` (
   `host_ip` varchar(50) DEFAULT NULL,
   `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `encoding` int DEFAULT NULL,
+  `changedby` varchar(500) DEFAULT NULL,
   KEY `thread_head` (`thread_head`),
   KEY `reply_to` (`reply_to`),
   KEY `logbook_id` (`logbook_id`),

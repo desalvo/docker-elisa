@@ -3,7 +3,7 @@
 export MARIADB_DATABASE=${MARIADB_DATABASE:-elisa_db}
 export MARIADB_HOST=${MARIADB_HOST:-localhost}
 export MARIADB_PORT=${MARIADB_PORT:-3306}
-export MARIADB_USER=${MARIADB_USER:-logbook}
+export MARIADB_USER=${MARIADB_USER:-elisa_config}
 
 export ELISA_HOME=${ELISA_HOME:-/var/local/elisa}
 export ELISA_USER=${ELISA_USER:-logbook}

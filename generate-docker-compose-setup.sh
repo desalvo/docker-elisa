@@ -9,7 +9,7 @@ export MARIADB_DATABASE=elisa_db
 export MARIADB_HOST=elisa-db
 export MARIADB_PORT=3306
 export MARIADB_HOST_PORT=3307
-export MARIADB_USER=logbook
+export MARIADB_USER=elisa_config
 export MARIADB_PASSWORD="$(tr -dc 'A-Za-z0-9$%&*+,-./:;<=>?@\^_' </dev/urandom | head -c 15; echo)"
 export MARIADB_ROOT_PASSWORD="$(tr -dc 'A-Za-z0-9$%&*+,-./:;<=>?@\^_' </dev/urandom | head -c 15; echo)"
 

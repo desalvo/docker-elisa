@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "elisa.fullname" . }}
+  labels:
+    {{- include "elisa.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "elisa.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "elisa.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      initContainers:
+      - image: alpine:latest
+        name: init-wait
+        command:
+        - sh
+        - -c
+        - for i in $(seq 1 300); do nc -zvw1 {{ include "elisa.fullname" . }}-db.{{ .Release.Namespace }}.svc.cluster.local {{ .Values.elisa_db.service.port }} && exit 0 || sleep
+          3; done; exit 1
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.elisa.image.repository }}:{{ .Values.elisa.image.tag }}"
+          imagePullPolicy: {{ .Values.elisa.image.pullPolicy }}
+          ports:
+            - name: elisa
+              containerPort: {{ .Values.elisa.service.port }}
+              protocol: TCP
+          {{- with .Values.elisa.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.elisa.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            - name: MARIADB_HOST
+              value: {{ include "elisa.fullname" . }}-db.{{ .Release.Namespace }}.svc.cluster.local
+            - name: MARIADB_PORT
+              value: "{{ .Values.elisa_db.service.port }}"
+            - name: MARIADB_USER
+              value: "elisa_config"
+            - name: MARIADB_DATABASE
+              value: "elisa_db"
+          {{- with .Values.elisa.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+          - mountPath: "/etc/elisa"
+            name: {{ include "elisa.fullname" . }}-config
+          - name: tz-config
+            mountPath: /etc/localtime
+          {{- with .Values.elisa.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: {{ include "elisa.fullname" . }}-config
+          configMap:
+            name: {{ include "elisa.fullname" . }}-config
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/Europe/Rome
+            type: File
+      {{- with .Values.elisa.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.elisa.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

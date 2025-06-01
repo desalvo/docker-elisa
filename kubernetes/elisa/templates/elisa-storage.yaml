@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.persistentStorage.name }}
+  {{- if .Values.persistentStorage.resourcePolicy }}
+  annotations:
+    helm.sh/resource-policy: {{ .Values.persistentStorage.resourcePolicy }}
+  {{- end }}
+spec:
+  storageClassName: "{{ .Values.persistentStorage.storageClassName }}"
+  resources:
+    requests:
+      storage: {{ .Values.persistentStorage.capacity }}
+  accessModes:
+    {{- range .Values.persistentStorage.accessModes }}
+    - {{ . }}
+    {{- end }}

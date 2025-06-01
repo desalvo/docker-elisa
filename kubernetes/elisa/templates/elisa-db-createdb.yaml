@@ -1,0 +1,216 @@
+apiVersion: v1
+data:
+  01-elisa_emptydb.sql: "/*M!999999\\- enable the sandbox mode */ \n-- MariaDB dump
+    10.19  Distrib 10.5.27-MariaDB, for Linux (x86_64)\n--\n-- Host: dbod-adcelisa.cern.ch
+    \   Database: elisa_db\n-- ------------------------------------------------------\n--
+    Server version\t8.4.2\n\n/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT
+    */;\n/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\n/*!40101
+    SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\n/*!40101 SET NAMES utf8mb4
+    */;\n/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;\n/*!40103 SET TIME_ZONE='+00:00'
+    */;\n/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;\n/*!40014
+    SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;\n/*!40101
+    SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;\n/*!40111 SET
+    @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;\n\n--\n-- Table structure for table
+    `D_ATTACH4MESSAGE`\n--\n\nDROP TABLE IF EXISTS `D_ATTACH4MESSAGE`;\n/*!40101 SET
+    @saved_cs_client     = @@character_set_client */;\n/*!40101 SET character_set_client
+    = utf8 */;\nCREATE TABLE `D_ATTACH4MESSAGE` (\n  `attach_id` bigint NOT NULL AUTO_INCREMENT,\n
+    \ `message_id` int unsigned DEFAULT NULL,\n  `logbook_id` int unsigned DEFAULT
+    NULL,\n  `filename` varchar(1024) DEFAULT NULL,\n  `content` mediumblob,\n  PRIMARY
+    KEY (`attach_id`),\n  KEY `message_id` (`message_id`),\n  KEY `logbook_id` (`logbook_id`)\n)
+    ENGINE=MyISAM AUTO_INCREMENT=163 DEFAULT CHARSET=latin1;\n/*!40101 SET character_set_client
+    = @saved_cs_client */;\n\n--\n-- Table structure for table `D_MESSAGES`\n--\n\nDROP
+    TABLE IF EXISTS `D_MESSAGES`;\n/*!40101 SET @saved_cs_client     = @@character_set_client
+    */;\n/*!40101 SET character_set_client = utf8 */;\nCREATE TABLE `D_MESSAGES` (\n
+    \ `logbook_id` bigint DEFAULT NULL,\n  `message_id` bigint DEFAULT NULL,\n  `date_time`
+    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `mt` bigint DEFAULT NULL,\n  `author`
+    varchar(500) DEFAULT NULL,\n  `username` varchar(100) DEFAULT NULL,\n  `subject`
+    varchar(2056) DEFAULT NULL,\n  `has_replies` bigint DEFAULT NULL,\n  `reply_to`
+    bigint DEFAULT NULL,\n  `thread_head` bigint DEFAULT NULL,\n  `has_attachments`
+    bigint DEFAULT NULL,\n  `status` varchar(50) DEFAULT NULL,\n  `host_ip` varchar(50)
+    DEFAULT NULL,\n  `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,\n
+    \ `encoding` int DEFAULT NULL,\n  `changedby` varchar(500) DEFAULT NULL,\n  KEY
+    `thread_head` (`thread_head`),\n  KEY `reply_to` (`reply_to`),\n  KEY `logbook_id`
+    (`logbook_id`),\n  KEY `mt` (`mt`)\n) ENGINE=MyISAM DEFAULT CHARSET=latin1;\n/*!40101
+    SET character_set_client = @saved_cs_client */;\n\n--\n-- Table structure for
+    table `D_OPTION4MESSAGE`\n--\n\nDROP TABLE IF EXISTS `D_OPTION4MESSAGE`;\n/*!40101
+    SET @saved_cs_client     = @@character_set_client */;\n/*!40101 SET character_set_client
+    = utf8 */;\nCREATE TABLE `D_OPTION4MESSAGE` (\n  `message_id` int unsigned DEFAULT
+    NULL,\n  `logbook_id` int unsigned DEFAULT NULL,\n  `option_id` int unsigned DEFAULT
+    NULL,\n  `option_value` varchar(2056) DEFAULT NULL,\n  KEY `message_id` (`message_id`),\n
+    \ KEY `logbook_id` (`logbook_id`),\n  KEY `option_id` (`option_id`)\n) ENGINE=MyISAM
+    DEFAULT CHARSET=latin1;\n/*!40101 SET character_set_client = @saved_cs_client
+    */;\n\n--\n-- Table structure for table `D_SA4MESSAGE`\n--\n\nDROP TABLE IF EXISTS
+    `D_SA4MESSAGE`;\n/*!40101 SET @saved_cs_client     = @@character_set_client */;\n/*!40101
+    SET character_set_client = utf8 */;\nCREATE TABLE `D_SA4MESSAGE` (\n  `message_id`
+    int unsigned DEFAULT NULL,\n  `logbook_id` int unsigned DEFAULT NULL,\n  `sa_id`
+    int unsigned DEFAULT NULL,\n  KEY `message_id` (`message_id`),\n  KEY `logbook_id`
+    (`logbook_id`),\n  KEY `sa_id` (`sa_id`)\n) ENGINE=MyISAM DEFAULT CHARSET=latin1;\n/*!40101
+    SET character_set_client = @saved_cs_client */;\n\n--\n-- Table structure for
+    table `LOGBOOK`\n--\n\nDROP TABLE IF EXISTS `LOGBOOK`;\n/*!40101 SET @saved_cs_client
+    \    = @@character_set_client */;\n/*!40101 SET character_set_client = utf8 */;\nCREATE
+    TABLE `LOGBOOK` (\n  `logbookname` varchar(50) NOT NULL,\n  `logbookid` int unsigned
+    NOT NULL,\n  `last_id` bigint DEFAULT NULL,\n  `mail_link` varchar(2056) DEFAULT
+    NULL,\n  PRIMARY KEY (`logbookid`),\n  KEY `last_id` (`last_id`)\n) ENGINE=MyISAM
+    DEFAULT CHARSET=latin1;\n/*!40101 SET character_set_client = @saved_cs_client
+    */;\n\n--\n-- Table structure for table `LOGBOOK2MT`\n--\n\nDROP TABLE IF EXISTS
+    `LOGBOOK2MT`;\n/*!40101 SET @saved_cs_client     = @@character_set_client */;\n/*!40101
+    SET character_set_client = utf8 */;\nCREATE TABLE `LOGBOOK2MT` (\n  `logbookid`
+    int unsigned DEFAULT NULL,\n  `mt_id` int unsigned DEFAULT NULL,\n  KEY `logbookid`
+    (`logbookid`),\n  KEY `mt_id` (`mt_id`)\n) ENGINE=MyISAM DEFAULT CHARSET=latin1;\n/*!40101
+    SET character_set_client = @saved_cs_client */;\n\n--\n-- Temporary table structure
+    for view `LOGBOOK2MT_VIEW`\n--\n\nDROP TABLE IF EXISTS `LOGBOOK2MT_VIEW`;\n/*!50001
+    DROP VIEW IF EXISTS `LOGBOOK2MT_VIEW`*/;\nSET @saved_cs_client     = @@character_set_client;\nSET
+    character_set_client = utf8;\n/*!50001 CREATE VIEW `LOGBOOK2MT_VIEW` AS SELECT\n
+    1 AS `LOGBOOKID`,\n  1 AS `MT_ID`,\n  1 AS `LOGBOOKNAME`,\n  1 AS `MT_NAME` */;\nSET
+    character_set_client = @saved_cs_client;\n\n--\n-- Table structure for table `LOGBOOK2SA`\n--\n\nDROP
+    TABLE IF EXISTS `LOGBOOK2SA`;\n/*!40101 SET @saved_cs_client     = @@character_set_client
+    */;\n/*!40101 SET character_set_client = utf8 */;\nCREATE TABLE `LOGBOOK2SA` (\n
+    \ `logbookid` int unsigned DEFAULT NULL,\n  `sa_id` int unsigned DEFAULT NULL,\n
+    \ KEY `logbookid` (`logbookid`),\n  KEY `sa_id` (`sa_id`)\n) ENGINE=MyISAM DEFAULT
+    CHARSET=latin1;\n/*!40101 SET character_set_client = @saved_cs_client */;\n\n--\n--
+    Temporary table structure for view `LOGBOOK2SA_VIEW`\n--\n\nDROP TABLE IF EXISTS
+    `LOGBOOK2SA_VIEW`;\n/*!50001 DROP VIEW IF EXISTS `LOGBOOK2SA_VIEW`*/;\nSET @saved_cs_client
+    \    = @@character_set_client;\nSET character_set_client = utf8;\n/*!50001 CREATE
+    VIEW `LOGBOOK2SA_VIEW` AS SELECT\n 1 AS `LOGBOOKID`,\n  1 AS `SA_ID`,\n  1 AS
+    `LOGBOOKNAME`,\n  1 AS `SA_NAME` */;\nSET character_set_client = @saved_cs_client;\n\n--\n--
+    Table structure for table `MESSAGE_TYPE`\n--\n\nDROP TABLE IF EXISTS `MESSAGE_TYPE`;\n/*!40101
+    SET @saved_cs_client     = @@character_set_client */;\n/*!40101 SET character_set_client
+    = utf8 */;\nCREATE TABLE `MESSAGE_TYPE` (\n  `id` int unsigned NOT NULL AUTO_INCREMENT,\n
+    \ `mt_name` varchar(50) NOT NULL,\n  `email` varchar(2056) DEFAULT NULL,\n  PRIMARY
+    KEY (`id`)\n) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;\n/*!40101
+    SET character_set_client = @saved_cs_client */;\n\n--\n-- Table structure for
+    table `MT2OPTIONS`\n--\n\nDROP TABLE IF EXISTS `MT2OPTIONS`;\n/*!40101 SET @saved_cs_client
+    \    = @@character_set_client */;\n/*!40101 SET character_set_client = utf8 */;\nCREATE
+    TABLE `MT2OPTIONS` (\n  `opt_id` bigint DEFAULT NULL,\n  `mt_id` bigint DEFAULT
+    NULL,\n  KEY `opt_id` (`opt_id`),\n  KEY `mt_id` (`mt_id`)\n) ENGINE=MyISAM DEFAULT
+    CHARSET=latin1;\n/*!40101 SET character_set_client = @saved_cs_client */;\n\n--\n--
+    Temporary table structure for view `MT2OPTIONS_VIEW`\n--\n\nDROP TABLE IF EXISTS
+    `MT2OPTIONS_VIEW`;\n/*!50001 DROP VIEW IF EXISTS `MT2OPTIONS_VIEW`*/;\nSET @saved_cs_client
+    \    = @@character_set_client;\nSET character_set_client = utf8;\n/*!50001 CREATE
+    VIEW `MT2OPTIONS_VIEW` AS SELECT\n 1 AS `MT_ID`,\n  1 AS `OPT_ID`,\n  1 AS `MT_NAME`,\n
+    \ 1 AS `OPT_NAME` */;\nSET character_set_client = @saved_cs_client;\n\n--\n--
+    Table structure for table `MT2SA`\n--\n\nDROP TABLE IF EXISTS `MT2SA`;\n/*!40101
+    SET @saved_cs_client     = @@character_set_client */;\n/*!40101 SET character_set_client
+    = utf8 */;\nCREATE TABLE `MT2SA` (\n  `sa_id` int unsigned DEFAULT NULL,\n  `mt_id`
+    int unsigned DEFAULT NULL,\n  KEY `sa_id` (`sa_id`),\n  KEY `mt_id` (`mt_id`)\n)
+    ENGINE=MyISAM DEFAULT CHARSET=latin1;\n/*!40101 SET character_set_client = @saved_cs_client
+    */;\n\n--\n-- Temporary table structure for view `MT2SA_VIEW`\n--\n\nDROP TABLE
+    IF EXISTS `MT2SA_VIEW`;\n/*!50001 DROP VIEW IF EXISTS `MT2SA_VIEW`*/;\nSET @saved_cs_client
+    \    = @@character_set_client;\nSET character_set_client = utf8;\n/*!50001 CREATE
+    VIEW `MT2SA_VIEW` AS SELECT\n 1 AS `MT_ID`,\n  1 AS `SA_ID`,\n  1 AS `MT_NAME`,\n
+    \ 1 AS `SA_NAME` */;\nSET character_set_client = @saved_cs_client;\n\n--\n-- Table
+    structure for table `OPTIONS`\n--\n\nDROP TABLE IF EXISTS `OPTIONS`;\n/*!40101
+    SET @saved_cs_client     = @@character_set_client */;\n/*!40101 SET character_set_client
+    = utf8 */;\nCREATE TABLE `OPTIONS` (\n  `id` bigint NOT NULL AUTO_INCREMENT,\n
+    \ `opt_name` varchar(256) DEFAULT NULL,\n  `opt_level` varchar(10) DEFAULT NULL,\n
+    \ `opt_type` varchar(20) DEFAULT NULL,\n  `opt_values` varchar(2056) DEFAULT NULL,\n
+    \ `opt_parent_id` bigint DEFAULT NULL,\n  `opt_parent_value` varchar(2056) DEFAULT
+    NULL,\n  `opt_default_value` varchar(2056) DEFAULT NULL,\n  PRIMARY KEY (`id`),\n
+    \ KEY `option_parent_id` (`opt_parent_id`)\n) ENGINE=MyISAM AUTO_INCREMENT=1066
+    DEFAULT CHARSET=latin1;\n/*!40101 SET character_set_client = @saved_cs_client
+    */;\n\n--\n-- Table structure for table `PRESET_OPTION`\n--\n\nDROP TABLE IF EXISTS
+    `PRESET_OPTION`;\n/*!40101 SET @saved_cs_client     = @@character_set_client */;\n/*!40101
+    SET character_set_client = utf8 */;\nCREATE TABLE `PRESET_OPTION` (\n  `option_id`
+    bigint NOT NULL,\n  `preset_text` varchar(2056) DEFAULT NULL,\n  `preset_subject`
+    varchar(500) DEFAULT NULL,\n  `preset_email` varchar(2056) DEFAULT NULL,\n  `preset_suboption`
+    varchar(2056) DEFAULT NULL,\n  KEY `option_id` (`option_id`)\n) ENGINE=MyISAM
+    DEFAULT CHARSET=latin1;\n/*!40101 SET character_set_client = @saved_cs_client
+    */;\n\n--\n-- Table structure for table `PRESET_OPTION2SA`\n--\n\nDROP TABLE IF
+    EXISTS `PRESET_OPTION2SA`;\n/*!40101 SET @saved_cs_client     = @@character_set_client
+    */;\n/*!40101 SET character_set_client = utf8 */;\nCREATE TABLE `PRESET_OPTION2SA`
+    (\n  `sa_id` bigint DEFAULT NULL,\n  `opt_id` bigint DEFAULT NULL,\n  KEY `sa_id`
+    (`sa_id`),\n  KEY `opt_id` (`opt_id`)\n) ENGINE=MyISAM DEFAULT CHARSET=latin1;\n/*!40101
+    SET character_set_client = @saved_cs_client */;\n\n--\n-- Temporary table structure
+    for view `PRESET_OPTION2SA_VIEW`\n--\n\nDROP TABLE IF EXISTS `PRESET_OPTION2SA_VIEW`;\n/*!50001
+    DROP VIEW IF EXISTS `PRESET_OPTION2SA_VIEW`*/;\nSET @saved_cs_client     = @@character_set_client;\nSET
+    character_set_client = utf8;\n/*!50001 CREATE VIEW `PRESET_OPTION2SA_VIEW` AS
+    SELECT\n 1 AS `OPT_ID`,\n  1 AS `SA_ID`,\n  1 AS `OPT_NAME`,\n  1 AS `SA_NAME`
+    */;\nSET character_set_client = @saved_cs_client;\n\n--\n-- Table structure for
+    table `SYSTEM_AFFECTED`\n--\n\nDROP TABLE IF EXISTS `SYSTEM_AFFECTED`;\n/*!40101
+    SET @saved_cs_client     = @@character_set_client */;\n/*!40101 SET character_set_client
+    = utf8 */;\nCREATE TABLE `SYSTEM_AFFECTED` (\n  `id` int unsigned NOT NULL AUTO_INCREMENT,\n
+    \ `sa_name` varchar(50) NOT NULL,\n  `email` varchar(2056) DEFAULT NULL,\n  PRIMARY
+    KEY (`id`)\n) ENGINE=MyISAM AUTO_INCREMENT=501 DEFAULT CHARSET=latin1;\n/*!40101
+    SET character_set_client = @saved_cs_client */;\n\n--\n-- Final view structure
+    for view `LOGBOOK2MT_VIEW`\n--\n\n/*!50001 DROP VIEW IF EXISTS `LOGBOOK2MT_VIEW`*/;\n/*!50001
+    SET @saved_cs_client          = @@character_set_client */;\n/*!50001 SET @saved_cs_results
+    \        = @@character_set_results */;\n/*!50001 SET @saved_col_connection     =
+    @@collation_connection */;\n/*!50001 SET character_set_client      = utf8mb4 */;\n/*!50001
+    SET character_set_results     = utf8mb4 */;\n/*!50001 SET collation_connection
+    \     = utf8mb4_unicode_ci */;\n/*!50001 CREATE ALGORITHM=UNDEFINED */\n/*!50013
+    DEFINER=`elisa_config`@`localhost` SQL SECURITY DEFINER */\n/*!50001 VIEW `LOGBOOK2MT_VIEW`
+    AS select `LOGBOOK2MT`.`logbookid` AS `LOGBOOKID`,`LOGBOOK2MT`.`mt_id` AS `MT_ID`,`LOGBOOK`.`logbookname`
+    AS `LOGBOOKNAME`,`MESSAGE_TYPE`.`mt_name` AS `MT_NAME` from ((`LOGBOOK2MT` join
+    `LOGBOOK`) join `MESSAGE_TYPE`) where ((`LOGBOOK2MT`.`logbookid` = `LOGBOOK`.`logbookid`)
+    and (`LOGBOOK2MT`.`mt_id` = `MESSAGE_TYPE`.`id`)) */;\n/*!50001 SET character_set_client
+    \     = @saved_cs_client */;\n/*!50001 SET character_set_results     = @saved_cs_results
+    */;\n/*!50001 SET collation_connection      = @saved_col_connection */;\n\n--\n--
+    Final view structure for view `LOGBOOK2SA_VIEW`\n--\n\n/*!50001 DROP VIEW IF EXISTS
+    `LOGBOOK2SA_VIEW`*/;\n/*!50001 SET @saved_cs_client          = @@character_set_client
+    */;\n/*!50001 SET @saved_cs_results         = @@character_set_results */;\n/*!50001
+    SET @saved_col_connection     = @@collation_connection */;\n/*!50001 SET character_set_client
+    \     = utf8mb4 */;\n/*!50001 SET character_set_results     = utf8mb4 */;\n/*!50001
+    SET collation_connection      = utf8mb4_unicode_ci */;\n/*!50001 CREATE ALGORITHM=UNDEFINED
+    */\n/*!50013 DEFINER=`elisa_config`@`localhost` SQL SECURITY DEFINER */\n/*!50001
+    VIEW `LOGBOOK2SA_VIEW` AS select `LOGBOOK2SA`.`logbookid` AS `LOGBOOKID`,`LOGBOOK2SA`.`sa_id`
+    AS `SA_ID`,`LOGBOOK`.`logbookname` AS `LOGBOOKNAME`,`SYSTEM_AFFECTED`.`sa_name`
+    AS `SA_NAME` from ((`LOGBOOK2SA` join `LOGBOOK`) join `SYSTEM_AFFECTED`) where
+    ((`LOGBOOK2SA`.`logbookid` = `LOGBOOK`.`logbookid`) and (`LOGBOOK2SA`.`sa_id`
+    = `SYSTEM_AFFECTED`.`id`)) */;\n/*!50001 SET character_set_client      = @saved_cs_client
+    */;\n/*!50001 SET character_set_results     = @saved_cs_results */;\n/*!50001
+    SET collation_connection      = @saved_col_connection */;\n\n--\n-- Final view
+    structure for view `MT2OPTIONS_VIEW`\n--\n\n/*!50001 DROP VIEW IF EXISTS `MT2OPTIONS_VIEW`*/;\n/*!50001
+    SET @saved_cs_client          = @@character_set_client */;\n/*!50001 SET @saved_cs_results
+    \        = @@character_set_results */;\n/*!50001 SET @saved_col_connection     =
+    @@collation_connection */;\n/*!50001 SET character_set_client      = utf8mb4 */;\n/*!50001
+    SET character_set_results     = utf8mb4 */;\n/*!50001 SET collation_connection
+    \     = utf8mb4_unicode_ci */;\n/*!50001 CREATE ALGORITHM=UNDEFINED */\n/*!50013
+    DEFINER=`elisa_config`@`localhost` SQL SECURITY DEFINER */\n/*!50001 VIEW `MT2OPTIONS_VIEW`
+    AS select `MT2OPTIONS`.`mt_id` AS `MT_ID`,`MT2OPTIONS`.`opt_id` AS `OPT_ID`,`MESSAGE_TYPE`.`mt_name`
+    AS `MT_NAME`,`OPTIONS`.`opt_name` AS `OPT_NAME` from ((`MT2OPTIONS` join `MESSAGE_TYPE`)
+    join `OPTIONS`) where ((`MT2OPTIONS`.`mt_id` = `MESSAGE_TYPE`.`id`) and (`MT2OPTIONS`.`opt_id`
+    = `OPTIONS`.`id`)) */;\n/*!50001 SET character_set_client      = @saved_cs_client
+    */;\n/*!50001 SET character_set_results     = @saved_cs_results */;\n/*!50001
+    SET collation_connection      = @saved_col_connection */;\n\n--\n-- Final view
+    structure for view `MT2SA_VIEW`\n--\n\n/*!50001 DROP VIEW IF EXISTS `MT2SA_VIEW`*/;\n/*!50001
+    SET @saved_cs_client          = @@character_set_client */;\n/*!50001 SET @saved_cs_results
+    \        = @@character_set_results */;\n/*!50001 SET @saved_col_connection     =
+    @@collation_connection */;\n/*!50001 SET character_set_client      = utf8mb4 */;\n/*!50001
+    SET character_set_results     = utf8mb4 */;\n/*!50001 SET collation_connection
+    \     = utf8mb4_unicode_ci */;\n/*!50001 CREATE ALGORITHM=UNDEFINED */\n/*!50013
+    DEFINER=`elisa_config`@`localhost` SQL SECURITY DEFINER */\n/*!50001 VIEW `MT2SA_VIEW`
+    AS select `MT2SA`.`mt_id` AS `MT_ID`,`MT2SA`.`sa_id` AS `SA_ID`,`MESSAGE_TYPE`.`mt_name`
+    AS `MT_NAME`,`SYSTEM_AFFECTED`.`sa_name` AS `SA_NAME` from ((`MT2SA` join `MESSAGE_TYPE`)
+    join `SYSTEM_AFFECTED`) where ((`MT2SA`.`mt_id` = `MESSAGE_TYPE`.`id`) and (`MT2SA`.`sa_id`
+    = `SYSTEM_AFFECTED`.`id`)) */;\n/*!50001 SET character_set_client      = @saved_cs_client
+    */;\n/*!50001 SET character_set_results     = @saved_cs_results */;\n/*!50001
+    SET collation_connection      = @saved_col_connection */;\n\n--\n-- Final view
+    structure for view `PRESET_OPTION2SA_VIEW`\n--\n\n/*!50001 DROP VIEW IF EXISTS
+    `PRESET_OPTION2SA_VIEW`*/;\n/*!50001 SET @saved_cs_client          = @@character_set_client
+    */;\n/*!50001 SET @saved_cs_results         = @@character_set_results */;\n/*!50001
+    SET @saved_col_connection     = @@collation_connection */;\n/*!50001 SET character_set_client
+    \     = utf8mb4 */;\n/*!50001 SET character_set_results     = utf8mb4 */;\n/*!50001
+    SET collation_connection      = utf8mb4_unicode_ci */;\n/*!50001 CREATE ALGORITHM=UNDEFINED
+    */\n/*!50013 DEFINER=`elisa_config`@`localhost` SQL SECURITY DEFINER */\n/*!50001
+    VIEW `PRESET_OPTION2SA_VIEW` AS select `PRESET_OPTION2SA`.`opt_id` AS `OPT_ID`,`PRESET_OPTION2SA`.`sa_id`
+    AS `SA_ID`,`OPTIONS`.`opt_name` AS `OPT_NAME`,`SYSTEM_AFFECTED`.`sa_name` AS `SA_NAME`
+    from ((`PRESET_OPTION2SA` join `OPTIONS`) join `SYSTEM_AFFECTED`) where ((`PRESET_OPTION2SA`.`opt_id`
+    = `OPTIONS`.`id`) and (`PRESET_OPTION2SA`.`sa_id` = `SYSTEM_AFFECTED`.`id`)) */;\n/*!50001
+    SET character_set_client      = @saved_cs_client */;\n/*!50001 SET character_set_results
+    \    = @saved_cs_results */;\n/*!50001 SET collation_connection      = @saved_col_connection
+    */;\n/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;\n\n/*!40101 SET SQL_MODE=@OLD_SQL_MODE
+    */;\n/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;\n/*!40014 SET
+    UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;\n/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT
+    */;\n/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n/*!40101
+    SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES
+    */;\n\n-- Dump completed on 2025-04-04 18:32:29\n"
+  02-elisa_user_privileges.sql: |
+    GRANT ALL PRIVILEGES on *.* TO 'elisa_config'@'%';
+    FLUSH PRIVILEGES;
+  {{ if .Values.elisa_db.importData }}
+  {{- .Values.elisa_db.importData | toYaml | nindent 2 }}
+  {{ end }}
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: {{ include "elisa.fullname" . }}-db-createdb

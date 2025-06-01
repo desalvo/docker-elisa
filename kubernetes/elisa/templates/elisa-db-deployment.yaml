@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "elisa.fullname" . }}-db
+  labels:
+    {{- include "elisa_db.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "elisa_db.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "elisa_db.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-db
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.elisa_db.image.repository }}:{{ .Values.elisa_db.image.tag }}"
+          imagePullPolicy: {{ .Values.elisa_db.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.elisa_db.service.port }}
+              protocol: TCP
+          {{- with .Values.elisa_db.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.elisa_db.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            - name: MARIADB_USER
+              value: "elisa_config"
+            - name: MARIADB_DATABASE
+              value: "elisa_db"
+          {{- with .Values.elisa_db.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - mountPath: "/var/lib/mysql"
+              name: {{ include "elisa.fullname" . }}-db
+            - mountPath: "/docker-entrypoint-initdb.d"
+              name: {{ include "elisa.fullname" . }}-db-createdb
+            - name: tz-config
+              mountPath: /etc/localtime
+          {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: {{ include "elisa.fullname" . }}-db
+          persistentVolumeClaim:
+            claimName: {{ include "elisa.fullname" . }}-db
+        - name: elisa-db-createdb
+          configMap:
+            name: elisa-db-createdb
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/{{ .Values.timezone }}
+            type: File
+      {{- with .Values.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.elisa_db.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

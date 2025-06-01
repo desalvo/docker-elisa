@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "elisa.fullname" . }}
+  labels:
+    {{- include "elisa.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.elisa.service.type }}
+  ports:
+    - port: {{ .Values.elisa.service.port }}
+      targetPort: {{ .Values.elisa.service.port }}
+      protocol: TCP
+      name: {{ include "elisa.fullname" . }}
+  selector:
+    {{- include "elisa.selectorLabels" . | nindent 4 }}
